@@ -1,8 +1,32 @@
 # InclusiBrief
 
-![Logo](https://raw.githubusercontent.com/scienmanas/InclusiBrief/main/assets/logo.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/scienmanas/InclusiBrief/main/assets/logo.png" alt="Logo" width="200" height="200">
+</p>
 
 This is a discord bot developed for GDSC genai workshop. There are various features in the bot which automated many daily tasks as fell as some fun features. Check the Features section for more details.
+
+## Folder Structure:
+
+```bash
+.
+├── assets
+│   └── logo.png
+│   └── permissions.png
+│── .env
+│    ├── TOKEN=Your Discord Bot Token
+│    ├── GEMINI_API_KEY=Your Gemini API Key
+├── .gitignore
+├── main.py
+├── app.py
+├── bot.py
+├── monitor_and_restart.py
+├── build.sh
+├── Procfile
+├── LICENSE
+├── README.md
+└── requirements.txt
+```
 
 ## Installation and Running:
 
@@ -30,7 +54,7 @@ GEMINI_API_KEY=Your Gemini API Key
 5. In Testing/debugging phase :
 
 ```bash
-python bot.py
+python monitor_and_restart.py
 ```
 
 ## Deployment:
@@ -49,8 +73,7 @@ python bot.py
 
 ## Features:
 
-1. The bot checks the current location of the `International Space Station` periodically every 5 seconds.
-2. The bot pings the server memebers when the ISS is in close promixity of the city.
+**`To be updated`**
 
 ## Contributors:
 
@@ -60,38 +83,13 @@ python bot.py
 
 1. [Gemini API](https://docs.gemini.com/)
 
-## Features Available:
- 
-- **`To be updated`**
-
-## Note: 
+## Note:
 
 - The bot is not optimized and configures, so we advise you to create your own bot and configure it according to your needs by utilizing the code. use **`!help`** to get bot commands.
 
 - Enable the intents so that it can read message events.
 
 ![Permissions](https://raw.githubusercontent.com/scienmanas/InclusiBrief/main/assets/permissions.png)
-
-## Folder Structure:
-
-```bash
-.
-├── assets
-│   └── logo.png
-│   └── permissions.png
-│── .env
-│    ├── TOKEN=Your Discord Bot Token
-│    ├── GEMINI_API_KEY=Your Gemini API Key
-├── .gitignore
-├── main.py
-├── app.py 
-├── bot.py
-├── build.sh
-├── Procfile
-├── LICENSE
-├── README.md
-└── requirements.txt
-```
 
 ## License:
 

@@ -45,7 +45,6 @@ class InclusiBrief(commands.Bot):
 
         # Get the command
         command = message.content.lower()
-        print(f"{Style.BRIGHT}{Fore.YELLOW}{command}{Fore.RESET}{Style.RESET_ALL}")
 
         if command.startswith("!help"):
             await self.help(message=message)
@@ -60,8 +59,8 @@ class InclusiBrief(commands.Bot):
         elif command.startswith("!vision:analyse_img"):
             await self.get_img_informtion(message=message)
 
-        elif command.startswith("!planner:plan_trip"):
-            await self.trip_planner(message=message, text=command.split(" ")[1:])
+        elif command.startswith("!place:inform"):
+            await self.place_informer(message=message, text=command.split(" ")[1:])
 
     @staticmethod
     async def help(message) -> None:
@@ -83,7 +82,8 @@ class InclusiBrief(commands.Bot):
                   "- **!help**: To view commands.\n"
                   "- **!website:analyse <website>**: To analyse whether a website is following WCAG 2.0 guidlines.\n"
                   "- **!website:get_info <website>**: To get information of a website.\n"
-                  "- **!planner:plan_trip <place>**: To ask bot to plan a trip at a place.",
+                  "- **!vision:analyse_img** with image attached: To get the information about image.\n"
+                  "- **!place:inform <place>**: To ask bot to plan a trip at a place.",
             inline=False
         )
         embed.set_footer(
@@ -104,7 +104,6 @@ class InclusiBrief(commands.Bot):
     async def wesbite_suitability_analyser(self, messgae, text) -> None:
 
         # Custom prompt
-        print(text)
         prompt = f"You need to parse the webiste: {text}, and check whether the website fits WCAG 2.2 guidlines of suitability to deaf, blind people. Return the suitability analysis if the website, only the results and keep the response short also the checking for the guilines should be strict."
 
         try:
@@ -122,7 +121,6 @@ class InclusiBrief(commands.Bot):
     async def get_website_info(self, message, text) -> None:
 
         # Custom prompt
-        print(text)
         prompt = f"""Analyze the website: {text}
 
         **Here's what I'm looking for:**
@@ -194,34 +192,31 @@ class InclusiBrief(commands.Bot):
 
             await message.channel.send(ERROR_MESSAGE)
 
-    async def trip_planner(self, message, text):
+    async def place_informer(self, message, text):
 
-        prompt = f"""Plan a trip to {text}, give repsonse in format :
+        prompt = f"""Tell me about the culture, tourism, famous landmarks, and famous foods of {text}. Keep your response under 2000 characters. Don't ask any questions. Resposne Format: 
         
-        **Place Description**
+        **Culture:**
+        * Describe the predominant cultural aspects and traditions.
 
-        * Briefly describe the place user want to have a trip to.
+        **Tourism:**
+        * Highlight popular tourist attractions and activities.
 
-        **Famous For:**
+        **Famous Landmarks:**
+        * List renowned landmarks and their significance.
 
-        * Mention the famous things and areas of {text} and their promixity and visit time.
+        **Famous Foods:**
+        * Mention iconic dishes or culinary specialties.
 
-        **Planned suggested:**
-
-        * Suggest a tour plan for the {text}
-
-        **Keep the response concise and informative. Don't exceed more than 2000 characters. Also user won't further talk like a chat. So don't ask any question just give information.**
-        
+        **Keep resposne under 1900 characters**
         """
 
         try:
 
             async with message.channel.typing():
 
-                response = self.text_model.generate_content(contents=text)
+                response = self.text_model.generate_content(contents=prompt)
                 text = response.text
-
-                print(text)
 
                 await message.channel.send(text)
 

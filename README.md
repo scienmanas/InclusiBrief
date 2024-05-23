@@ -73,7 +73,7 @@ python monitor_and_restart.py
 
 ## Features:
 
-**`To be updated`**
+- A place informer, webiste anayser, images analyser by use of genai.
 
 ## Contributors:
 

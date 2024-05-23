@@ -7,8 +7,7 @@ def run_flask():
 
 # Function to run the Discord bot
 def run_discord_bot():
-    os.system("python multipurpose_bot.py")
-    os.system("python trip_planner_bot.py")
+    os.system("python bot.py")
 
 if __name__ == "__main__":
     # Start the Flask server in a separate thread

@@ -91,6 +91,10 @@ python monitor_and_restart.py
 
 ![Permissions](https://raw.githubusercontent.com/scienmanas/InclusiBrief/main/assets/permissions.png)
 
+## Contributing: 
+
+The repository is open for contribution. All types of contribution are acknowledged - raising a bug issue, recommending new features as well as updating the code base. Before updating the code base raise an issue of recoomendign new feature and then can raise a pull requesting with the mentioned issue id.
+
 ## License:
 
 This project is licensed under the MIT License

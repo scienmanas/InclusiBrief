@@ -35,7 +35,7 @@ class RestartHandler(FileSystemEventHandler):
 
 if __name__ == "__main__":
     path = "."  # Watch the current directory
-    script_to_watch = "bot.py"
+    script_to_watch = "multipurpose_bot.py"
     
     event_handler = RestartHandler(script_to_watch)
     observer = Observer()

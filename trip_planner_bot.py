@@ -16,6 +16,9 @@ load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
 TOKEN = os.getenv("TOKEN")
 
+# Constants
+PROJECT_URL = "https://github.com/scienmanas/InclusiBrief"
+
 
 class InclusiBrief(commands.Bot):
     def __init__(self):
@@ -28,7 +31,7 @@ class InclusiBrief(commands.Bot):
         # Configure Gemini
         genai.configure(api_key=API_KEY)
         # Configure models
-        self.text_model = genai.GenerativeModel('gemini-pro')
+        self.text_model = genai.GenerativeModel('gemini-1.5-pro-latest')
         self.vision_model = genai.GenerativeModel('gemini-pro-vision')
 
     async def on_ready(self):
@@ -49,17 +52,15 @@ class InclusiBrief(commands.Bot):
             await self.project_info(message=message)
 
         elif command.startswith("!website:analyse"):
-            await self.wesbite_suitability_analyser(messgae=message, text=command.split(" ")[1])
+            await self.wesbite_suitability_analyser(messgae=message, text=command.split(" ")[1:])
         elif command.startswith("!website:get_info"):
-            await self.get_website_info(message=message, text=command.split(" ")[1])
+            await self.get_website_info(message=message, text=command.split(" ")[1:])
 
-        # elif command.startswith("!vision:analyse_img"):
-        #     await self.get_img_informtion(message=message)
+        elif command.startswith("!vision:analyse_img"):
+            await self.get_img_informtion(message=message)
 
-        elif message.attachments :
-            print(message.attachments)
-            print(message.content)
-            print(type(message))
+        elif command.startswith("!planner:plan_trip") :
+            await self.trip_planner(message=message, text=command.split(" ")[1:])
 
 
     @staticmethod
@@ -68,8 +69,13 @@ class InclusiBrief(commands.Bot):
 
     @staticmethod
     async def project_info(message) -> None:
-        pass
 
+        text = f"The project can be found at url: {PROJECT_URL}"
+
+        await message.channel.send(text)
+
+ 
+    # This won't work -> Basically a linting functionality and in next we have feature to check it. (es-lint)
     async def wesbite_suitability_analyser(self, messgae, text) -> None:
 
         # Custom prompt
@@ -109,16 +115,18 @@ class InclusiBrief(commands.Bot):
     async def get_img_informtion(self, message) -> None:
 
         # Get image url
-        if message.attachments:
-            image_url = message.atttachments[0].url
+        if message.attachments :
+            image_url = message.attachments[0]
 
-        print(image_url)
 
-        image_bytes = self.download_image(image_url)
-        image = Image.open(BytesIO(image_bytes))
 
         async with message.channel.typing():
 
+            # Download and store images
+            image_bytes = self.download_image(image_url)
+            image = Image.open(BytesIO(image_bytes))
+
+            
             # Get the image details from vision model
             response = self.vision_model.generate_content(image)
             text = response.text
@@ -147,6 +155,36 @@ class InclusiBrief(commands.Bot):
             text = response.text
 
             await message.channel.send(text)
+
+    async def trip_planner(self, message, text) :
+
+        prompt = f"""Plan a trip to {text}, give repsonse in format :
+        
+        **Place Description**
+
+        * Briefly describe the place user want to have a trip to.
+
+        **Famous For:**
+
+        * Mention the famous things and areas of {text} and their promixity and visit time.
+
+        **Planned suggested:**
+
+        * Suggest a tour plan for the {text}
+
+        **Keep the response concise and informative. Don't exceed more than 2000 characters**
+        
+        """
+
+        async with message.channel.typing() :
+
+            response = self.text_model.generate_content(contents=text)
+            text = response.text
+
+            print(text)
+
+            await message.channel.send(text)
+
 
     @staticmethod
     def download_image(image_url) :

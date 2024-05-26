@@ -60,3 +60,4 @@ watchdog==4.0.0
 wcwidth==0.2.13
 Werkzeug==3.0.3
 yarl==1.9.4
+gunicorn=22.0.0
